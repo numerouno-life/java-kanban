@@ -5,16 +5,17 @@ import java.util.HashMap;
 public class Epic extends Task {
     private HashMap<Integer,Subtask> subtasks = new HashMap<>();
 
-    public Epic(String title, String description) {
-        super(title, description);
+    public Epic(String title, String description, TaskStatus status) {
+        super(title, description, TaskStatus.NEW);
     }
+
 
     public HashMap<Integer, Subtask> getSubtasks() {
         return subtasks;
     }
 
-    public void setSubtasks(HashMap<Integer, Subtask> subtasks) {
-        this.subtasks = subtasks;
+    public void deleteAllSubtasks() {
+        subtasks.clear();
     }
 
     public void addSubtask(Subtask subtask) {

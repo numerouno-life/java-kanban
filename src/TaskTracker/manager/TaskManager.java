@@ -15,16 +15,16 @@ public class TaskManager {
     private Map<Integer, Epic> epics = new HashMap<>();
     private int currentId = 1;
 
-    public Map<Integer, Task> getTasks() {
-        return tasks;
+    public List<Task> getTasks() {
+        return new ArrayList<>(tasks.values());
     }
 
-    public Map<Integer, Subtask> getSubtasks() {
-        return subtasks;
+    public List<Subtask> getSubtasks() {
+        return new ArrayList<>(subtasks.values());
     }
 
-    public Map<Integer, Epic> getEpics() {
-        return epics;
+    public List<Epic> getEpics() {
+        return new ArrayList<>(epics.values());
     }
 
     public void deleteAllTasks() {
@@ -34,7 +34,7 @@ public class TaskManager {
     public void deleteAllSubtasks() {
         subtasks.clear();
         for (Epic epic : epics.values()) {
-            epic.getSubtasks().clear();
+            epic.deleteAllSubtasks();
             epic.updateEpicStatus();
         }
     }
@@ -62,14 +62,15 @@ public class TaskManager {
     }
 
     public void createSubtask(Subtask subtask) {
-        subtask.setId(currentId++);
-        subtasks.put(subtask.getId(), subtask);
         Epic epic = epics.get(subtask.getEpicId());
         if (epic != null) {
+            subtask.setId(currentId++);
+            subtasks.put(subtask.getId(), subtask);
             epic.addSubtask(subtask);
             epic.updateEpicStatus();
         }
     }
+
 
     public void createEpic(Epic epic) {
         epic.setId(currentId++);
@@ -81,15 +82,20 @@ public class TaskManager {
     }
 
     public void updateSubtask(Subtask subtask) {
-        subtasks.replace(subtask.getId(), subtask);
+        Subtask existSubtask = subtasks.get(subtask.getId());
         Epic epic = epics.get(subtask.getEpicId());
-        if (epic != null) {
+        if (epic != null && existSubtask != null && existSubtask.getEpicId() == epic.getId()) {
+            subtasks.replace(subtask.getId(),subtask);
             epic.updateEpicStatus();
         }
     }
 
     public void updateEpic(Epic epic) {
-        epics.replace(epic.getId(), epic);
+        Epic existEpic = epics.get(epic.getId());
+        if (existEpic != null) {
+            existEpic.setTitle(epic.getTitle());
+            existEpic.setDescription(epic.getDescription());
+        }
     }
 
     public void deleteTaskById(int id) {
