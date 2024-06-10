@@ -1,6 +1,7 @@
 package TaskTracker.taskData;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Epic extends Task {
     private HashMap<Integer,Subtask> subtasks = new HashMap<>();
@@ -19,11 +20,27 @@ public class Epic extends Task {
     }
 
     public void addSubtask(Subtask subtask) {
+//        if (subtask.getEpicId() == this.getId()) {
+//            throw new IllegalArgumentException("Epic Can't add Subtask To Yourself");
+//        }
         subtasks.put(subtask.getId(),subtask);
     }
 
     public void removeSubtaskById(int id) {
         subtasks.remove(id);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Epic epic)) return false;
+        if (!super.equals(o)) return false;
+        return Objects.equals(subtasks, epic.subtasks);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), subtasks);
     }
 
     public void updateEpicStatus() {

@@ -1,5 +1,7 @@
 package TaskTracker.taskData;
 
+import java.util.Objects;
+
 public class Subtask extends Task {
     private int epicId;
 
@@ -13,7 +15,23 @@ public class Subtask extends Task {
     }
 
     public void setEpicId(int epicId) {
+//        if (this.epicId == epicId) {
+//            throw new IllegalArgumentException("Subtask cannot be made into its own epic");
+//        }
         this.epicId = epicId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Subtask subtask)) return false;
+        if (!super.equals(o)) return false;
+        return epicId == subtask.epicId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), epicId);
     }
 
     @Override

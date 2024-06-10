@@ -8,7 +8,7 @@ import TaskTracker.taskData.TaskStatus;
 
 public class Main {
     public static void main(String[] args) {
-        TaskManager taskManager = new TaskManager();
+        TaskManager taskManager = Managers.getDefault();
 
         //Создание задач
         Task task1 = new Task("Задача 1", "Описание задачи 1", TaskStatus.IN_PROGRESS);
@@ -77,5 +77,36 @@ public class Main {
         System.out.println("\nПодзадачи после удаления: ");
         taskManager.getSubtasks().forEach(System.out::println);
 
+        taskManager.getTaskById(task2.getId());
+        taskManager.getSubtaskById(subtask1.getId());
+        taskManager.getEpicById(epic2.getId());
+
+        printAllTasks(taskManager);
+
+    }
+
+    private static void printAllTasks(TaskManager manager) {
+        System.out.println("------------------------------------");
+        System.out.println("Задачи:");
+        for (Task task : manager.getTasks()) {
+            System.out.println(task);
+        }
+        System.out.println("Эпики:");
+        for (Task epic : manager.getEpics()) {
+            System.out.println(epic);
+
+            for (Task task : manager.getAllSubtaskByEpicId(epic.getId())) {
+                System.out.println("--> " + task);
+            }
+        }
+        System.out.println("Подзадачи:");
+        for (Task subtask : manager.getSubtasks()) {
+            System.out.println(subtask);
+        }
+
+        System.out.println("История:");
+        for (Task task : manager.getHistory()) {
+            System.out.println(task);
+        }
     }
 }
