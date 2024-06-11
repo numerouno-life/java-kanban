@@ -18,7 +18,7 @@ class InMemoryHistoryManagerTest {
     @BeforeEach
     public void BeforeEach() {
         historyManager = Managers.getDefaultHistory();
-        taskManager = new InMemoryTaskManager(historyManager);
+        taskManager = Managers.getDefault();
     }
 
     //убедитесь, что задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных.

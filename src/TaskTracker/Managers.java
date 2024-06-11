@@ -12,13 +12,13 @@ public class Managers {
         if (historyManager == null) {
             historyManager = new InMemoryHistoryManager();
         }
-        return new InMemoryTaskManager(getDefaultHistory());
+        return new InMemoryTaskManager();
     }
 
     public static HistoryManager getDefaultHistory() {
         if (historyManager == null) {
             historyManager = new InMemoryHistoryManager();
         }
-        return new InMemoryHistoryManager();
+        return historyManager;
     }
 }
