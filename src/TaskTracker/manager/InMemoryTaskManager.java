@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
-    private HistoryManager historyManager = Managers.getDefaultHistory();
+    private HistoryManager historyManager;
 
     private Map<Integer, Task> tasks = new HashMap<>();
     private Map<Integer, Subtask> subtasks = new HashMap<>();
@@ -19,6 +19,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     private int currentId = 1;
 
+    public InMemoryTaskManager(HistoryManager historyManager) {
+        this.historyManager = historyManager;
+    }
 
     @Override
     public List<Task> getTasks() {
