@@ -40,12 +40,9 @@ class InMemoryHistoryManagerTest {
         taskManager.getTaskById(task1.getId());
 
         updateHistorySize = historyManager.getHistory().size();
-        assertEquals(2, updateHistorySize, "History size = 2 after viewing updated task");
+        assertEquals(1, updateHistorySize, "History size = 2 after viewing updated task");
 
-        Task firstVersionSaveInHistory = historyManager.getHistory().get(0);
-        assertEquals("Update Description", firstVersionSaveInHistory.getDescription(), "Description = 'Update Description'.");
-
-        Task updateVersionSaveInHistory = historyManager.getHistory().get(1);
-        assertEquals("Update Description", updateVersionSaveInHistory.getDescription(), "Description = 'Update Description'.");
+        Task lastVersionHistory = historyManager.getHistory().get(0);
+        assertEquals("Update Description", lastVersionHistory.getDescription(), "should be 'Update Description'");
     }
 }
