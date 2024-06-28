@@ -1,9 +1,9 @@
-package TaskTracker.manager;
+package taskTracker.manager;
 
-import TaskTracker.Managers;
-import TaskTracker.taskData.Epic;
-import TaskTracker.taskData.Subtask;
-import TaskTracker.taskData.Task;
+import taskTracker.Managers;
+import taskTracker.taskData.Epic;
+import taskTracker.taskData.Subtask;
+import taskTracker.taskData.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;

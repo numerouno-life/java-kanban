@@ -1,12 +1,12 @@
 package manager;
 
-import TaskTracker.Managers;
-import TaskTracker.manager.HistoryManager;
-import TaskTracker.manager.TaskManager;
-import TaskTracker.taskData.Epic;
-import TaskTracker.taskData.Subtask;
-import TaskTracker.taskData.Task;
-import TaskTracker.taskData.TaskStatus;
+import taskTracker.Managers;
+import taskTracker.manager.HistoryManager;
+import taskTracker.manager.TaskManager;
+import taskTracker.taskData.Epic;
+import taskTracker.taskData.Subtask;
+import taskTracker.taskData.Task;
+import taskTracker.taskData.TaskStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

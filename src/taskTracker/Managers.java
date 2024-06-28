@@ -1,9 +1,9 @@
-package TaskTracker;
+package taskTracker;
 
-import TaskTracker.manager.HistoryManager;
-import TaskTracker.manager.InMemoryHistoryManager;
-import TaskTracker.manager.InMemoryTaskManager;
-import TaskTracker.manager.TaskManager;
+import taskTracker.manager.HistoryManager;
+import taskTracker.manager.InMemoryHistoryManager;
+import taskTracker.manager.InMemoryTaskManager;
+import taskTracker.manager.TaskManager;
 
 public class Managers {
     private static HistoryManager historyManager;

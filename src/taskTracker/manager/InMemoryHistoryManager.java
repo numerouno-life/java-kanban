@@ -1,6 +1,6 @@
-package TaskTracker.manager;
+package taskTracker.manager;
 
-import TaskTracker.taskData.Task;
+import taskTracker.taskData.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
