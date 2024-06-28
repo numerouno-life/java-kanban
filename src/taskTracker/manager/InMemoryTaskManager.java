@@ -1,9 +1,9 @@
-package TaskTracker.manager;
+package taskTracker.manager;
 
-import TaskTracker.Managers;
-import TaskTracker.taskData.Epic;
-import TaskTracker.taskData.Subtask;
-import TaskTracker.taskData.Task;
+import taskTracker.Managers;
+import taskTracker.taskData.Epic;
+import taskTracker.taskData.Subtask;
+import taskTracker.taskData.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,17 +11,13 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
-    private HistoryManager historyManager;
+    private HistoryManager historyManager = Managers.getDefaultHistory();
 
     private Map<Integer, Task> tasks = new HashMap<>();
     private Map<Integer, Subtask> subtasks = new HashMap<>();
     private Map<Integer, Epic> epics = new HashMap<>();
 
     private int currentId = 1;
-
-    public InMemoryTaskManager(HistoryManager historyManager) {
-        this.historyManager = historyManager;
-    }
 
     @Override
     public List<Task> getTasks() {

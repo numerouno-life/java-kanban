@@ -1,14 +1,16 @@
 package manager;
 
-import TaskTracker.Managers;
-import TaskTracker.manager.HistoryManager;
-import TaskTracker.manager.TaskManager;
-import TaskTracker.taskData.Epic;
-import TaskTracker.taskData.Subtask;
-import TaskTracker.taskData.Task;
-import TaskTracker.taskData.TaskStatus;
+import taskTracker.Managers;
+import taskTracker.manager.HistoryManager;
+import taskTracker.manager.TaskManager;
+import taskTracker.taskData.Epic;
+import taskTracker.taskData.Subtask;
+import taskTracker.taskData.Task;
+import taskTracker.taskData.TaskStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -83,7 +85,7 @@ class InMemoryTaskManagerTest {
     }
 
     /* Так и не смог победить два нижних теста. Ломается логика всего проекта, если выполнять эти тесты.
-    * Если есть возможность, то подскажи, что я делаю не так? */
+     * Если есть возможность, то подскажи, что я делаю не так? */
 
 
     //проверьте, что объект Epic нельзя добавить в самого себя в виде подзадачи;
@@ -153,5 +155,75 @@ class InMemoryTaskManagerTest {
         assertEquals(task1,retrievedTask,"Task should be immutable when added to manager.");
     }
 
+    // Удаляемые подзадачи не должны хранить внутри себя старые id.
+    @Test
+    public void testDeletedSubtasksShouldNotStoreOldIdsInsideThem() {
+        Epic epic1 = new Epic("Epic 1", "Descr epic 1", TaskStatus.NEW);
+        taskManager.createEpic(epic1);
+        Subtask subtask1 = new Subtask("Subtask 1", "Descr 1", TaskStatus.NEW, epic1.getId());
+        taskManager.createSubtask(subtask1);
+        taskManager.deleteSubtaskById(subtask1.getId());
+        Subtask removeSubtask = taskManager.getSubtaskById(subtask1.getId());
+        assertNull(removeSubtask,"Subtask 1 remove and = null");
+        // проверяем, что задача удалена из списка
+        List<Subtask> epicSubtask = taskManager.getAllSubtaskByEpicId(epic1.getId());
+        assertFalse(epicSubtask.contains(subtask1),"Subtask should be remove");
+
+    }
+
+    // Внутри эпиков не должно оставаться неактуальных id подзадач.
+    @Test
+    public void testThereShouldBeNoIrrelevantIdSubtasksInsideEpics() {
+        Epic epic1 = new Epic("Epic 1", "Descr epic 1", TaskStatus.NEW);
+        taskManager.createEpic(epic1);
+        Subtask subtask1 = new Subtask("Subtask 1", "Descr 1", TaskStatus.NEW, epic1.getId());
+        Subtask subtask2 = new Subtask("Subtask 2", "Descr 2", TaskStatus.NEW, epic1.getId());
+        taskManager.createSubtask(subtask1);
+        taskManager.createSubtask(subtask2);
+
+        taskManager.deleteSubtaskById(subtask1.getId());
+
+        List<Subtask> epicSubtask = taskManager.getAllSubtaskByEpicId(epic1.getId());
+        for (Subtask subtask : epicSubtask) {
+            assertNotEquals(subtask1.getId(), subtask.getId(), "The remote ID must not be present in the list");
+        }
+    }
+
+    /*С помощью сеттеров экземпляры задач позволяют изменить любое своё поле, но это может повлиять на данные внутри менеджера.
+     Протестируйте эти кейсы и подумайте над возможными вариантами решения проблемы.*/
+    @Test
+    public void testChangingAnyFieldUsingSettersAndCheckingForErrorsAfterChanges() {
+        Task task1 = new Task("Task 1", "Descr 1", TaskStatus.NEW);
+        taskManager.createTask(task1);
+        task1.setTitle("New Title Task 1");
+        task1.setId(3);
+        task1.setDescription("New Description Task 1");
+        task1.setStatus(TaskStatus.IN_PROGRESS);
+
+        Epic epic1 = new Epic("Epic 1", "Descr epic 1", TaskStatus.NEW);
+        taskManager.createEpic(epic1);
+
+        Subtask subtask1 = new Subtask("Subtask 1", "Descr 1", TaskStatus.NEW, epic1.getId());
+        taskManager.createSubtask(subtask1);
+        subtask1.setId(4);
+
+        epic1.setId(2);
+        epic1.setDescription("New Description epic 1");
+        epic1.setStatus(TaskStatus.IN_PROGRESS);
+        epic1.setTitle("New Title Epic 1");
+        taskManager.updateEpic(epic1);
+
+        // Проверяем не изменились ли данные у подзадачи, после изменений данных у Эпика
+        assertEquals("Subtask 1", subtask1.getTitle(),"It should be title 'Subtask 1'");
+        assertEquals("Descr 1", subtask1.getDescription(), "It should be description 'Descr 1'");
+        assertEquals(TaskStatus.NEW, subtask1.getStatus(), "It should be status 'NEW'");
+        assertEquals(4, subtask1.getId(), "It should be Id 4");
+
+        // Заранее изменили у task1 данные и проверяем не затронули ли изменения epic1 данные у task1
+        assertEquals("New Title Task 1", task1.getTitle(),"It should be title 'New Title Task 1' ");
+        assertEquals("New Description Task 1", task1.getDescription(), "It should be descr 'New Description Task 1'");
+        assertEquals(TaskStatus.IN_PROGRESS, task1.getStatus(), "It should be 'IN_PROGRESS'");
+        assertEquals(3, task1.getId(), "Should be Id 3");
+    }
 
 }
