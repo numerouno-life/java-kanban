@@ -1,6 +1,6 @@
-package tasktracker.manager;
+package tracker.manager;
 
-import tasktracker.taskdata.Task;
+import tracker.taskdata.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,8 +71,6 @@ public class InMemoryHistoryManager implements HistoryManager {
             node.prev.next = node.next;
             node.next.prev = node.prev;
         }
-        node.prev = null;
-        node.next = null;
     }
 
     private static class Node {

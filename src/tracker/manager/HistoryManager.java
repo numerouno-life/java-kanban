@@ -1,6 +1,6 @@
-package tasktracker.manager;
+package tracker.manager;
 
-import tasktracker.taskdata.Task;
+import tracker.taskdata.Task;
 
 import java.util.List;
 

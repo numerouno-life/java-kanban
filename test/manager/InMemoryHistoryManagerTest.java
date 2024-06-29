@@ -1,10 +1,10 @@
 package manager;
 
-import tasktracker.Managers;
-import tasktracker.manager.HistoryManager;
-import tasktracker.manager.TaskManager;
-import tasktracker.taskdata.Task;
-import tasktracker.taskdata.TaskStatus;
+import tracker.Managers;
+import tracker.manager.HistoryManager;
+import tracker.manager.TaskManager;
+import tracker.taskdata.Task;
+import tracker.taskdata.TaskStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

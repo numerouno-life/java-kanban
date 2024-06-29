@@ -1,10 +1,10 @@
-package tasktracker;
+package tracker;
 
-import tasktracker.manager.TaskManager;
-import tasktracker.taskdata.Epic;
-import tasktracker.taskdata.Subtask;
-import tasktracker.taskdata.Task;
-import tasktracker.taskdata.TaskStatus;
+import tracker.manager.TaskManager;
+import tracker.taskdata.Epic;
+import tracker.taskdata.Subtask;
+import tracker.taskdata.Task;
+import tracker.taskdata.TaskStatus;
 
 public class Main {
     public static void main(String[] args) {
