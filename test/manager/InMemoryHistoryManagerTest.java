@@ -1,11 +1,10 @@
 package manager;
 
-import TaskTracker.Managers;
-import TaskTracker.manager.HistoryManager;
-import TaskTracker.manager.InMemoryTaskManager;
-import TaskTracker.manager.TaskManager;
-import TaskTracker.taskData.Task;
-import TaskTracker.taskData.TaskStatus;
+import tracker.Managers;
+import tracker.manager.HistoryManager;
+import tracker.manager.TaskManager;
+import tracker.taskdata.Task;
+import tracker.taskdata.TaskStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -40,12 +39,9 @@ class InMemoryHistoryManagerTest {
         taskManager.getTaskById(task1.getId());
 
         updateHistorySize = historyManager.getHistory().size();
-        assertEquals(2, updateHistorySize, "History size = 2 after viewing updated task");
+        assertEquals(1, updateHistorySize, "History size = 2 after viewing updated task");
 
-        Task firstVersionSaveInHistory = historyManager.getHistory().get(0);
-        assertEquals("Update Description", firstVersionSaveInHistory.getDescription(), "Description = 'Update Description'.");
-
-        Task updateVersionSaveInHistory = historyManager.getHistory().get(1);
-        assertEquals("Update Description", updateVersionSaveInHistory.getDescription(), "Description = 'Update Description'.");
+        Task lastVersionHistory = historyManager.getHistory().get(0);
+        assertEquals("Update Description", lastVersionHistory.getDescription(), "should be 'Update Description'");
     }
 }

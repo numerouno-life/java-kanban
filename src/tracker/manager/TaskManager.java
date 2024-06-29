@@ -1,8 +1,8 @@
-package TaskTracker.manager;
+package tracker.manager;
 
-import TaskTracker.taskData.Epic;
-import TaskTracker.taskData.Subtask;
-import TaskTracker.taskData.Task;
+import tracker.taskdata.Epic;
+import tracker.taskdata.Subtask;
+import tracker.taskdata.Task;
 
 import java.util.List;
 
@@ -50,5 +50,6 @@ public interface TaskManager {
 
 
     List<Subtask> getAllSubtaskByEpicId(int epicId);
+
     List<Task> getHistory();
 }
