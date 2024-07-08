@@ -1,4 +1,4 @@
-package TaskTracker.taskData;
+package tracker.taskdata;
 
 import java.util.Objects;
 
@@ -11,7 +11,7 @@ public class Task {
     public Task(String title, String description, TaskStatus status) {
         this.title = title;
         this.description = description;
-        this.status = status;
+        this.status = Objects.requireNonNull(status,"Status cannot be null");
     }
 
     public int getId() {

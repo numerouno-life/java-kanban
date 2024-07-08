@@ -1,4 +1,4 @@
-package TaskTracker.taskData;
+package tracker.taskdata;
 
 public enum TaskStatus {
     NEW,
