@@ -1,8 +1,8 @@
 package tracker.manager;
 
+import tracker.taskdata.Epic;
 import tracker.taskdata.Subtask;
 import tracker.taskdata.Task;
-import tracker.taskdata.Epic;
 import tracker.taskdata.TaskStatus;
 
 import java.io.BufferedWriter;
@@ -11,7 +11,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
