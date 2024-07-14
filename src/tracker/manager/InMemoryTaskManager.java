@@ -104,7 +104,6 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic != null) {
             subtask.setId(currentId++);
             subtasks.put(subtask.getId(), subtask);
-            tasks.put(subtask.getId(), subtask);
             epic.addSubtask(subtask);
             epic.updateEpicStatus();
         }
@@ -186,5 +185,11 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory();
     }
 
+    public int getCurrentId() {
+        return currentId;
+    }
 
+    public void setCurrentId(int id) {
+        this.currentId = id;
+    }
 }
