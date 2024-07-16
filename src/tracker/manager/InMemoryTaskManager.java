@@ -116,6 +116,18 @@ public class InMemoryTaskManager implements TaskManager {
         epics.put(epic.getId(), epic);
     }
 
+    protected void addTask(Task task) {
+        tasks.put(task.getId(), task);
+    }
+
+    protected void addSubtask(Subtask subtask) {
+        subtasks.put(subtask.getId(), subtask);
+    }
+
+    protected void addEpic(Epic epic) {
+        epics.put(epic.getId(), epic);
+    }
+
     @Override
     public void updateTask(Task task) {
         tasks.replace(task.getId(), task);
@@ -185,11 +197,7 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory();
     }
 
-    public int getCurrentId() {
-        return currentId;
-    }
-
-    public void setCurrentId(int id) {
+    protected void setCurrentId(int id) {
         this.currentId = id;
     }
 }

@@ -21,7 +21,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         this.file = file.toPath();
     }
 
-    public void save() {
+    private void save() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file.toFile()))) {
             bw.append(getHeader());
             bw.newLine();
@@ -31,9 +31,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             }
             for (Epic epic : getEpics()) {
                 bw.append(toString(epic)).append("\n");
-                for (Subtask subtask : getSubtasks()) {
-                    bw.append(toString(subtask)).append("\n");
-                }
+            }
+            for (Subtask subtask : getSubtasks()) {
+                bw.append(toString(subtask)).append("\n");
             }
             bw.flush();
         } catch (IOException e) {
@@ -42,7 +42,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
     }
 
-    String toString(Task task) {
+    private String toString(Task task) {
         StringBuilder sb = new StringBuilder();
         sb.append(task.getId()).append(",");
         sb.append(getTaskType(task)).append(",");
@@ -55,7 +55,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         return sb.toString();
     }
 
-    public static Task fromString(String value) {
+    private static Task fromString(String value) {
         String[] fields = value.split(",");
         int id = Integer.parseInt(fields[0]);
         TypeOfTask type = TypeOfTask.valueOf(fields[1]);
@@ -92,7 +92,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         }
     }
 
-    public static FileBackedTaskManager loadFromFile(File file) {
+    private static FileBackedTaskManager loadFromFile(File file) {
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(file);
         try {
             List<String> lines = Files.readAllLines(file.toPath());
@@ -108,11 +108,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                 maxId = Math.max(maxId, taskId);
 
                 if (task instanceof Epic) {
-                    fileBackedTaskManager.createEpic((Epic) task);
+                    fileBackedTaskManager.addEpic((Epic) task);
                 } else if (task instanceof Subtask) {
-                    fileBackedTaskManager.createSubtask((Subtask) task);
+                    fileBackedTaskManager.addSubtask((Subtask) task);
                 } else {
-                    fileBackedTaskManager.createTask(task);
+                    fileBackedTaskManager.addTask(task);
                 }
             }
             fileBackedTaskManager.setCurrentId(maxId);
@@ -121,6 +121,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             throw ManagerSaveException.loadExceptionException(e);
         }
         return fileBackedTaskManager;
+    }
+
+    public void loadFromFilePublic(File file) {
+        loadFromFile(file);
     }
 
     public static String getHeader() {
