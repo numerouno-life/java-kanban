@@ -104,7 +104,6 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic != null) {
             subtask.setId(currentId++);
             subtasks.put(subtask.getId(), subtask);
-            tasks.put(subtask.getId(), subtask);
             epic.addSubtask(subtask);
             epic.updateEpicStatus();
         }
@@ -114,6 +113,18 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void createEpic(Epic epic) {
         epic.setId(currentId++);
+        epics.put(epic.getId(), epic);
+    }
+
+    protected void addTask(Task task) {
+        tasks.put(task.getId(), task);
+    }
+
+    protected void addSubtask(Subtask subtask) {
+        subtasks.put(subtask.getId(), subtask);
+    }
+
+    protected void addEpic(Epic epic) {
         epics.put(epic.getId(), epic);
     }
 
@@ -186,5 +197,7 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory();
     }
 
-
+    protected void setCurrentId(int id) {
+        this.currentId = id;
+    }
 }
