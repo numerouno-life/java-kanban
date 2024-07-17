@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
@@ -102,6 +103,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             }
 
             int maxId = 0;
+            List<Subtask> subtaskAddToEpic = new ArrayList<>();
+
             for (int i = 1; i < lines.size(); i++) {
                 Task task = fromString(lines.get(i));
                 int taskId = task.getId();
@@ -110,11 +113,21 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                 if (task instanceof Epic) {
                     fileBackedTaskManager.addEpic((Epic) task);
                 } else if (task instanceof Subtask) {
-                    fileBackedTaskManager.addSubtask((Subtask) task);
+                    subtaskAddToEpic.add((Subtask) task);
                 } else {
                     fileBackedTaskManager.addTask(task);
                 }
             }
+            // Добавляем сабтаски к эпикам
+            for (Subtask subtask : subtaskAddToEpic) {
+                fileBackedTaskManager.addSubtask(subtask);
+                Epic epic = fileBackedTaskManager.getEpicById(subtask.getEpicId());
+                if (epic != null) {
+                    epic.addSubtask(subtask);
+                }
+            }
+
+            // устанавливаем следующий после максимального id
             fileBackedTaskManager.setCurrentId(maxId);
 
         } catch (IOException e) {
