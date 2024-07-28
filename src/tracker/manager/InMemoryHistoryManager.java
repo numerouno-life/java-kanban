@@ -43,6 +43,8 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public void clearHistory() {
         nodeMap.clear();
+        first = null;
+        last = null;
     }
 
     // Добавляет задачу в конец связного списка. Обновляет ссылки в предыдущем последнем узле и добавляет новый узел в nodeMap
