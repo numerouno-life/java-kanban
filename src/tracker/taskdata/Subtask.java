@@ -1,5 +1,7 @@
 package tracker.taskdata;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Subtask extends Task {
@@ -10,14 +12,16 @@ public class Subtask extends Task {
         this.epicId = epicId;
     }
 
+    public Subtask(String title, String description, TaskStatus status, Duration duration, LocalDateTime startTime, int epicId) {
+        super(title, description, status, duration, startTime);
+        this.epicId = epicId;
+    }
+
     public int getEpicId() {
         return epicId;
     }
 
     public void setEpicId(int epicId) {
-//        if (this.epicId == epicId) {
-//            throw new IllegalArgumentException("Subtask cannot be made into its own epic");
-//        }
         this.epicId = epicId;
     }
 
@@ -41,6 +45,8 @@ public class Subtask extends Task {
                 ", title='" + getTitle() + '\'' +
                 ", description='" + getDescription() + '\'' +
                 ", status=" + getStatus() +
+                (getDuration() == null ? "" : ", duration=" + getDuration()) +
+                (getStartTime() == null ? "" : ", startTime=" + getStartTime()) +
                 ", epicId=" + epicId +
                 '}';
     }
