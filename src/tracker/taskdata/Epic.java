@@ -54,7 +54,7 @@ public class Epic extends Task {
 
     public void updateEpicFields() {
         if (subtasks.isEmpty()) {
-            setDuration(Duration.ZERO);
+            setDuration(null);
             setStartTime(null);
             endTime = null;
             setStatus(TaskStatus.NEW);
@@ -90,7 +90,11 @@ public class Epic extends Task {
             }
         }
 
-        setDuration(totalDuration);
+        if (!totalDuration.equals(Duration.ZERO)) {
+            setDuration(totalDuration);
+        } else {
+            setDuration(null);
+        }
         setStartTime(earliestStartTime);
         this.endTime = latestEndTime;
 

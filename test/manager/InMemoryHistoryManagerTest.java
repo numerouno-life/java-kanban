@@ -1,18 +1,18 @@
 package manager;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import tracker.Managers;
 import tracker.manager.HistoryManager;
 import tracker.manager.TaskManager;
 import tracker.taskdata.Task;
 import tracker.taskdata.TaskStatus;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class InMemoryHistoryManagerTest {
     private TaskManager taskManager;
@@ -20,8 +20,8 @@ class InMemoryHistoryManagerTest {
 
     @BeforeEach
     public void BeforeEach() {
-        historyManager = Managers.getDefaultHistory();
         taskManager = Managers.getDefault();
+        historyManager = Managers.getDefaultHistory();
     }
 
     @AfterEach
@@ -84,7 +84,8 @@ class InMemoryHistoryManagerTest {
         assertEquals(1, taskManager.getHistory().size(), "story contains duplicate.");
     }
 
-    /* ТЕСТ РАБОТАЕТ, НО ГИТХАБ ЕГО НЕ ПРИНИМАЕТ ! ! ! !
+/*
+
     // Проверка удаления задачи из начала истории
     @Test
     void testRemoveFromBeginning() {
@@ -104,9 +105,8 @@ class InMemoryHistoryManagerTest {
 
         assertEquals(2, taskManager.getHistory().size(), "history contains 2 tasks after deletion.");
         assertFalse(historyManager.getHistory().contains(task1), "history contains a deleted task");
-    }*/
+    }
 
-    /*  ТЕСТ РАБОТАЕТ, НО ГИТХАБ ЕГО НЕ ПРИНИМАЕТ ! ! ! !
 
     // Проверка удаления задачи из середины истории
     @Test
@@ -127,11 +127,11 @@ class InMemoryHistoryManagerTest {
 
         assertEquals(2, taskManager.getHistory().size(), "history contains 2 tasks after deletion.");
         assertFalse(historyManager.getHistory().contains(task2), "history contains a deleted task");
-    }*/
+    }
 
-    /* ТЕСТ РАБОТАЕТ, НО ГИТХАБ ЕГО НЕ ПРИНИМАЕТ ! ! ! !
 
-    Проверка удаления задачи из конца истории
+
+    // Проверка удаления задачи из конца истории
     @Test
     void testRemoveFromEnd() {
         Task task1 = new Task("Task 1", "Descr 1", TaskStatus.NEW);
@@ -159,7 +159,6 @@ class InMemoryHistoryManagerTest {
         // Проверяем, что последней задачей теперь является task3
         assertEquals(task3, history.get(history.size() - 1));
     }
-
-     */
+*/
 
 }
