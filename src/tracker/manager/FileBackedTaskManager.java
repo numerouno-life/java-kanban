@@ -11,6 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +52,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         sb.append(task.getTitle()).append(",");
         sb.append(task.getStatus()).append(",");
         sb.append(task.getDescription()).append(",");
+        sb.append(task.getDuration() != null ? task.getDuration().toMinutes() : "").append(",");
+        sb.append(task.getStartTime() != null ? task.getStartTime() : "").append(",");
         if (task instanceof Subtask) {
             sb.append(((Subtask) task).getEpicId());
         }
@@ -63,19 +67,21 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         String title = fields[2];
         TaskStatus status = TaskStatus.valueOf(fields[3]);
         String description = fields[4];
-
+        Duration duration = (fields.length > 5 && !fields[5].isEmpty()) ? Duration.ofMinutes(Long.parseLong(fields[5])) : null;
+        LocalDateTime startTime = fields.length > 6 && !fields[6].isEmpty() ? LocalDateTime.parse(fields[6]) : null;
         switch (type) {
             case TASK:
-                Task task = new Task(title, description, status);
+                Task task = new Task(title, description, status, duration, startTime);
                 task.setId(id);
                 return task;
             case EPIC:
-                Epic epic = new Epic(title, description, status);
+                LocalDateTime endTime = fields.length > 7 && !fields[7].isEmpty() ? LocalDateTime.parse(fields[7]) : null;
+                Epic epic = new Epic(title, description, status, duration, startTime, endTime);
                 epic.setId(id);
                 return epic;
             case SUBTASK:
-                int epicId = Integer.parseInt(fields[5]);
-                Subtask subtask = new Subtask(title, description, status, epicId);
+                int epicId = fields[7].isEmpty() ? 0 : Integer.parseInt(fields[7]);
+                Subtask subtask = new Subtask(title, description, status, duration, startTime, epicId);
                 subtask.setId(id);
                 return subtask;
             default:
@@ -136,12 +142,18 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         return fileBackedTaskManager;
     }
 
+    // метод для теста загрузки из файла
     public void loadFromFilePublic(File file) {
         loadFromFile(file);
     }
 
+    // метод для теста сохранения файла
+    public void savePublic() {
+        save();
+    }
+
     public static String getHeader() {
-        return "id,type,title,status,description,epic";
+        return "id,type,title,status,description,duration,startTime,endTime,epicId";
     }
 
     @Override
@@ -215,5 +227,4 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         super.deleteEpicById(id);
         save();
     }
-
 }

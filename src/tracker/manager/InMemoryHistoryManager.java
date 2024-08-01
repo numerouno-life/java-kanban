@@ -40,6 +40,13 @@ public class InMemoryHistoryManager implements HistoryManager {
         return history;
     }
 
+    @Override
+    public void clearHistory() {
+        nodeMap.clear();
+        first = null;
+        last = null;
+    }
+
     // Добавляет задачу в конец связного списка. Обновляет ссылки в предыдущем последнем узле и добавляет новый узел в nodeMap
     private void linkLast(Task task) {
         Node newNode = new Node(last, null, task);
