@@ -2,7 +2,6 @@ package tracker.http;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
 import com.sun.net.httpserver.HttpServer;
 import tracker.Managers;
 import tracker.http.adapter.DurationAdapter;
