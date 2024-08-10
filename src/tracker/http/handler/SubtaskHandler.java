@@ -68,10 +68,10 @@ public class SubtaskHandler extends BaseHttpHandler {
         try {
             if (id == null) {
                 taskManager.createSubtask(subtask);
-                sendText(exchange, "Subtask created with id: " + taskManager.getSubtaskById(subtask.getId()), 201);
+                sendText(exchange, "Subtask created with id: " + taskManager.getSubtaskById(subtask.getId()) + ".", 201);
             } else {
                 taskManager.updateSubtask(subtask);
-                sendText(exchange, "Subtask with id: " + taskManager.getSubtaskById(subtask.getId()) + " update", 201);
+                sendText(exchange, "Subtask with id: " + taskManager.getSubtaskById(subtask.getId()) + " update.", 201);
             }
         } catch (IllegalStateException e) {
             sendHasInteractions(exchange);
@@ -82,7 +82,7 @@ public class SubtaskHandler extends BaseHttpHandler {
         try {
             if (id != null) {
                 taskManager.deleteSubtaskById(id);
-                sendText(exchange, "Subtask deleted", 200);
+                sendText(exchange, "Subtask deleted.", 200);
             } else {
                 sendNotFound(exchange);
             }

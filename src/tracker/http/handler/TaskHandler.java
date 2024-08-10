@@ -67,10 +67,10 @@ public class TaskHandler extends BaseHttpHandler {
         try {
             if (id == null) {
                 taskManager.createTask(task);
-                sendText(exchange, "Task created with id: " + taskManager.getTaskById(task.getId()), 201);
+                sendText(exchange, "Task created with id: " + taskManager.getTaskById(task.getId()) + ".", 201);
             } else {
                 taskManager.updateTask(task);
-                sendText(exchange, "Task with id: " + taskManager.getTaskById(task.getId()) + " is update", 201);
+                sendText(exchange, "Task with id: " + taskManager.getTaskById(task.getId()) + " is update.", 201);
             }
         } catch (IllegalStateException e) {
             sendHasInteractions(exchange);
@@ -81,7 +81,7 @@ public class TaskHandler extends BaseHttpHandler {
         if (id != null) {
             try {
                 taskManager.deleteTaskById(id);
-                sendText(exchange, "Task deleted.", 200);
+                sendText(exchange, "Task deleted!", 200);
             } catch (IllegalStateException e) {
                 sendNotFound(exchange);
             }

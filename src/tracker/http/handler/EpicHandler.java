@@ -67,10 +67,10 @@ public class EpicHandler extends BaseHttpHandler {
         try {
             if (id == null) {
                 taskManager.createEpic(epic);
-                sendText(exchange, "Epic created with id: " + taskManager.getEpicById(epic.getId()), 201);
+                sendText(exchange, "Epic created with id: " + taskManager.getEpicById(epic.getId()) + ".", 201);
             } else {
                 taskManager.updateEpic(epic);
-                sendText(exchange, "Epic with id: " + taskManager.getEpicById(epic.getId()) + " update", 201);
+                sendText(exchange, "Epic with id: " + taskManager.getEpicById(epic.getId()) + " update.", 201);
             }
         } catch (IllegalStateException e) {
             sendHasInteractions(exchange);
@@ -81,7 +81,7 @@ public class EpicHandler extends BaseHttpHandler {
         try {
             if (id != null) {
                 taskManager.deleteEpicById(id);
-                sendText(exchange, "Epic deleted", 200);
+                sendText(exchange, "Epic deleted.", 200);
             } else {
                 sendNotFound(exchange);
             }
